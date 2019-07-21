@@ -19,19 +19,20 @@ public class CameraControl : MonoBehaviour
     private Vector3Int gridPosition;
 
     public GameObject UnitUI;
+    public BattleLogic Logic;
     //Do this better later (dynamically?)
     public Tilemap map;
-    public GameObject[] PlayerUnits; //Move to a better place later? (Some kind of game logic script?)
 
     void Start()
     {
         cam = Camera.main;
-        PlayerUnits = GameObject.FindGameObjectsWithTag("PlayerUnit");
 
     }
 
     void OnGUI()
     {
+
+        //Move this to update function or check the position only when clicked
         Vector3 point = new Vector3();
         Event currentEvent = Event.current;
         Vector2 mousePos = new Vector2();
@@ -60,18 +61,10 @@ public class CameraControl : MonoBehaviour
 
     void mouseClicks()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            foreach (var unit in PlayerUnits)
-            {
-                if (map.WorldToCell(unit.transform.position) == gridPosition)
-                {
-                    Debug.Log(unit);
-                    UnitUI.GetComponent<Image>().color = Color.red;
-                    UnitUI.GetComponentInChildren<Text>().text = unit.name;
-                    break;
-                }
-            }
+            Logic.LeftMouseClick(gridPosition);
+          
         }
     }
     // The camera movement is done with the input manager (WASD and arrow keys by default)
