@@ -22,6 +22,7 @@ public class CameraControl : MonoBehaviour
     public BattleLogic Logic;
     //Do this better later (dynamically?)
     public Tilemap map;
+    public Tilemap units;
 
     void Start()
     {
