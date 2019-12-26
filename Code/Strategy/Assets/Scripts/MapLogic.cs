@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseControl : MonoBehaviour
+public class MapLogic : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.visible = true;
+        
     }
 
+    private void OnMouseDown()
+    {
+        Debug.Log("Kartta");
+    }
     // Update is called once per frame
     void Update()
     {
+        
     }
 }

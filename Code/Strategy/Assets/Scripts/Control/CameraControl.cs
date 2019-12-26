@@ -56,17 +56,9 @@ public class CameraControl : MonoBehaviour
 
     void Update()
     {
-        mouseClicks();
+
     }
 
-    void mouseClicks()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Logic.LeftMouseClick(gridPosition);
-          
-        }
-    }
     // The camera movement is done with the input manager (WASD and arrow keys by default)
     void LateUpdate()
     {

@@ -67,6 +67,11 @@ public class BattleLogic : MonoBehaviour
             }
         }
     }
+
+    public void UnitClicked(GameObject clickedUnit)
+    {
+        Debug.Log(clickedUnit.name);
+    }
     void RemoveUnitSelection()
     {
         selectedUnit = null;
