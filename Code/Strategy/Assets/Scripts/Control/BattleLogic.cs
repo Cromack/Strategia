@@ -19,12 +19,13 @@ public class BattleLogic : MonoBehaviour
 
     private GameObject selectedUnit = null;
     public GameObject UnitUI;
-    private GameObject[] PlayerUnits;
     public Tilemap map;
+
+    private Dictionary<Vector3Int, GameObject> UnitPositions;
     // Start is called before the first frame update
     void Start()
     {
-        PlayerUnits = GameObject.FindGameObjectsWithTag("PlayerUnit");
+        UnitPositions = new Dictionary<Vector3Int, GameObject>();
     }
 
     // Update is called once per frame
@@ -35,42 +36,40 @@ public class BattleLogic : MonoBehaviour
 
     public void LeftMouseClick(Vector3 clickedGrid)
     {
-        if (selectedUnit == null)
-        {
-            UpdateSelectionInfo(clickedGrid);
-        }
-
-        else
-        {
-            RemoveUnitSelection();
-        }
             
     }
     void UpdateSelectionInfo(Vector3 Grid)
     {
-        /*Find a bette way to do this (Unit selection from grid)
-         * MapToWorld might be unnecessary
-         * List of units cumbersome? Just chek if the tile has object (SOmekind of struct for tile that holds pointer to occupying unit?)
-        */
-        foreach (var unit in PlayerUnits)
-        {
-            if (map.WorldToCell(unit.transform.position) == Grid)
-            {
-                Debug.Log(unit);
-                selectedUnit = unit;
-                UnitUI.GetComponent<Image>().sprite = unit.GetComponent<SpriteRenderer>().sprite;
-                Color tempColor = UnitUI.GetComponent<Image>().color;
-                tempColor.a = 1f;
-                UnitUI.GetComponent<Image>().color = tempColor;
-                UnitUI.GetComponentInChildren<Text>().text = unit.name;
-                break;
-            }
-        }
+
     }
 
     public void UnitClicked(GameObject clickedUnit)
     {
+        //Parempi hakea sijainnin perusteella dictistä? Onko suurta väliä, Dictistä haku takaa "oikean" tiedon
         Debug.Log(clickedUnit.name);
+        if(clickedUnit.tag == "PlayerUnit")
+        {
+            selectedUnit = clickedUnit;
+            updateUnitUI();//vai ifhäkkyrän ulkopuolelle/aina kun selectedUnit vaihtuu
+        }
+    }
+
+    public void unitPosition(Vector3 position, GameObject unit)
+    {
+        //Add and update unit positions
+        Vector3Int gridPosition = map.WorldToCell(position);
+        UnitPositions.Add(gridPosition, unit);
+        Debug.Log(gridPosition);
+
+    }
+
+    void updateUnitUI()
+    {
+        UnitUI.GetComponent<Image>().sprite = selectedUnit.GetComponent<SpriteRenderer>().sprite;
+        Color tempColor = UnitUI.GetComponent<Image>().color;
+        tempColor.a = 1f;
+        UnitUI.GetComponent<Image>().color = tempColor;
+        UnitUI.GetComponentInChildren<Text>().text = selectedUnit.name;
     }
     void RemoveUnitSelection()
     {
