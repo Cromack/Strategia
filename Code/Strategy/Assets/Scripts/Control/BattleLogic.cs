@@ -80,4 +80,32 @@ public class BattleLogic : MonoBehaviour
         UnitUI.GetComponent<Image>().color = tempColor;
         UnitUI.GetComponentInChildren<Text>().text = "";
     }
+
+    public void mapClicked(Vector3 clickedLocation, string button)
+    {
+
+        Vector3Int clickedGrid = map.WorldToCell(Camera.main.ScreenToWorldPoint(clickedLocation));
+        if (selectedUnit != null)
+        {
+            switch (button)
+            {
+                case "left":
+                    RemoveUnitSelection();
+                    break;
+                case "right":
+                    //TODO: Add movement code
+                    Debug.Log("Liiku tänne:" + clickedGrid);
+                    UnitMovement(clickedGrid);
+                    break;
+            }
+        }
+    }
+
+    void UnitMovement(Vector3Int finalPosition)
+    {
+        //Todo: Check if finallocation is empty, A* algorithm for movement etc
+
+        selectedUnit.transform.position = map.CellToWorld(finalPosition);
+
+    }
 }
